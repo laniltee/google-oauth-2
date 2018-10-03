@@ -32,11 +32,14 @@
             <ul class="list-group" id="file-list">
 
             </ul>
-
+            <div class="alert alert-info" role="alert" id="loading-alert">
+                <strong>Please Wait .. .. </strong> We are requesting data from Google!
+            </div>
         </div>
         <div class="col"></div>
     </div>
     <pre id="content"></pre>
+
 </div>
 
 
@@ -67,6 +70,8 @@
      *  listeners.
      */
     function initClient() {
+        $("#loading-alert").hide();
+
         gapi.client.init({
             apiKey: API_KEY,
             clientId: CLIENT_ID,
@@ -133,11 +138,13 @@
      * Print files.
      */
     function listFiles() {
+        $("#loading-alert").show();
         gapi.client.drive.files.list({
             'pageSize': 10,
             'fields': "nextPageToken, files(id, name)"
         }).then(function (response) {
             // appendPre('Files:');
+            $("#loading-alert").hide();
             var files = response.result.files;
             if (files && files.length > 0) {
                 for (var i = 0; i < files.length; i++) {
@@ -157,5 +164,6 @@
         onload="this.onload=function(){};handleClientLoad()"
         onreadystatechange="if (this.readyState === 'complete') this.onload()">
 </script>
+<p class="mt-5 mb-3 text-muted">&copy; L.T. Marasinghe - IT 15 0190 28</p>
 </body>
 </html>
